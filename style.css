@@ -1,0 +1,54 @@
+/* Estilos globais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1, h2 {
+    color: #343a40;
+}
+
+.navbar {
+    border-bottom: 2px solid #dee2e6;
+}
+
+.profile-img {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+/* Estilos para projetos */
+.project img {
+    max-width: 300px; /* Limita a largura máxima da imagem a 300px */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-right: 15px; /* Espaçamento à direita da imagem */
+    float: left; /* Alinha a imagem à esquerda */
+    margin-bottom: 40px;
+}
+
+.post, .project {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Permite o uso de flexbox para melhor alinhamento */
+    flex-direction: column; /* Alinha os itens na coluna */
+    flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha se necessário */
+}
+
+/* Scroll to Top Button */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
