@@ -1,49 +1,52 @@
-// Função para scroll to top
-$(document).ready(function(){
-    $(window).scroll(function(){
+$(document).ready(function() {
+    function toggleScrollTopBtn() {
         if ($(this).scrollTop() > 200) {
             $('#scrollTopBtn').fadeIn();
         } else {
             $('#scrollTopBtn').fadeOut();
         }
+    }
+
+    $(window).scroll(toggleScrollTopBtn);
+
+    $('#scrollTopBtn').click(function() {
+        $('html, body').animate({ scrollTop: 0 }, 800);
     });
 
-    $('#scrollTopBtn').click(function(){
-        $('html, body').animate({scrollTop: 0}, 800);
-        return false;
-    });
+    function filterProjects(inputId, suggestionsId, itemsClass, suggestions) {
+        $(inputId).on('focus keyup', function() {
+            const filter = $(this).val().toLowerCase();
+            const filteredSuggestions = suggestions.filter(category =>
+                category.toLowerCase().includes(filter)
+            );
 
-    // Função para filtrar projetos por categoria
-    $('#categoryFilter').on('keyup', function() {
-        var filter = $(this).val().toLowerCase();
-        var suggestions = ['Web App', 'Game'];
-        $('#suggestions').empty().hide();
+            $(suggestionsId).empty().toggle(filteredSuggestions.length > 0);
+            filteredSuggestions.forEach(category =>
+                $(suggestionsId).append(
+                    `<a href="#" class="list-group-item">${category}</a>`
+                )
+            );
 
-        // Exibir sugestões de categorias
-        if (filter) {
-            var filteredSuggestions = suggestions.filter(function(category) {
-                return category.toLowerCase().includes(filter);
+            $(itemsClass).each(function() {
+                $(this).toggle(
+                    $(this).data('category').toLowerCase().includes(filter)
+                );
             });
-
-            if (filteredSuggestions.length > 0) {
-                filteredSuggestions.forEach(function(suggestion) {
-                    $('#suggestions').append('<a href="#" class="list-group-item list-group-item-action">' + suggestion + '</a>');
-                });
-                $('#suggestions').show();
-            }
-        }
-
-        $('.project').each(function() {
-            var category = $(this).data('category');
-            $(this).toggle(category.toLowerCase().indexOf(filter) > -1);
         });
-    });
 
-    // Adicionar evento de clique nas sugestões
-    $(document).on('click', '#suggestions .list-group-item', function(e) {
-        e.preventDefault();
-        $('#categoryFilter').val($(this).text());
-        $('#categoryFilter').trigger('keyup');
-        $('#suggestions').hide();
-    });
+        $(document).on('click', `${suggestionsId} .list-group-item`, function(e) {
+            e.preventDefault();
+            const selectedCategory = $(this).text();
+            $(inputId).val(selectedCategory).trigger('keyup');
+            $(suggestionsId).hide();
+        });
+    }
+
+    filterProjects('#categoryFilterPortfolio', '#portfolioSuggestions', '.project', [
+        'Web App', 'Game'
+    ]);
+
+    filterProjects('#categoryFilterBlog', '#blogSuggestions', '.post', [
+        'Backend', 'Mensageria'
+    ]);
 });
